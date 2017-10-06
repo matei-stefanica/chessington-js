@@ -18,26 +18,26 @@ export default class Pawn extends Piece {
             case Player.WHITE:
                 const normalWhitePawnMove : Square = Square.at(currentPosition.row + 1, currentPosition.col)
                 const doubleInitialMoveWhite : Square | null = currentPosition.row == baseWhitePawnLine ? Square.at(currentPosition.row + 2, currentPosition.col) : null;
-                if (board.getPiece(normalWhitePawnMove) == null) {
+                if (board.getPiece(normalWhitePawnMove) == undefined) {
                     availableMoves.push(normalWhitePawnMove);
                 }
-                if (doubleInitialMoveWhite != null) {
+                if (doubleInitialMoveWhite != null && board.getPiece(doubleInitialMoveWhite) == undefined && board.getPiece(normalWhitePawnMove) == undefined) {
                     availableMoves.push(doubleInitialMoveWhite);
                 }
                 break;
             case Player.BLACK:
                 const normalBlackPawnMove : Square = Square.at(currentPosition.row - 1, currentPosition.col);
                 const doubleInitialMoveBlack : Square | null = currentPosition.row == baseBlackPawnLine ? Square.at(currentPosition.row - 2, currentPosition.col) : null;
-                if (board.getPiece(normalBlackPawnMove) == null) {
+                
+                if (board.getPiece(normalBlackPawnMove) == undefined) {
                     availableMoves.push(normalBlackPawnMove);
                 }
-                if (doubleInitialMoveBlack != null) {
+                if (doubleInitialMoveBlack != null && board.getPiece(doubleInitialMoveBlack) == undefined && board.getPiece(normalBlackPawnMove) == undefined) {
                     availableMoves.push(doubleInitialMoveBlack);
                 }
                 break
             default:
                 // maybe add error later
-                console.log("Unkown player!")
                 break
         }
         return availableMoves;
