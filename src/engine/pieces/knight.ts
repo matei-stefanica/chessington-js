@@ -8,14 +8,6 @@ export default class Knight extends Piece {
         super(player);
     }
 
-    private checkBounds(lin : number, col : number) : boolean {
-        if (lin <= 7 && lin >= 0 && col <= 7 && lin >= 0) {
-            return true;
-        }
-        return false;
-    }
-    
-
     public getAvailableMoves(board: Board) {
         const availableMoves : Square[] = [];
         const currentPosition : Square = board.findPiece(this);
