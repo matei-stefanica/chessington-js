@@ -11,6 +11,9 @@ export default class Pawn extends Piece {
     public getAvailableMoves(board: Board) {
         const baseWhitePawnLine : number = 1;
         const baseBlackPawnLine : number = 6;
+        const lastLinePawnWhite : number = 7;
+        const lastLinePawnBlack : number = 0;
+
         const availableMoves: Square[] = [];
         const currentPosition: Square = board.findPiece(this);
         
@@ -18,7 +21,7 @@ export default class Pawn extends Piece {
             case Player.WHITE:
                 const normalWhitePawnMove : Square = Square.at(currentPosition.row + 1, currentPosition.col)
                 const doubleInitialMoveWhite : Square | null = currentPosition.row == baseWhitePawnLine ? Square.at(currentPosition.row + 2, currentPosition.col) : null;
-                if (board.getPiece(normalWhitePawnMove) == undefined) {
+                if (board.getPiece(normalWhitePawnMove) == undefined && normalWhitePawnMove.row != lastLinePawnWhite) {
                     availableMoves.push(normalWhitePawnMove);
                 }
                 if (doubleInitialMoveWhite != null && board.getPiece(doubleInitialMoveWhite) == undefined && board.getPiece(normalWhitePawnMove) == undefined) {
@@ -29,7 +32,7 @@ export default class Pawn extends Piece {
                 const normalBlackPawnMove : Square = Square.at(currentPosition.row - 1, currentPosition.col);
                 const doubleInitialMoveBlack : Square | null = currentPosition.row == baseBlackPawnLine ? Square.at(currentPosition.row - 2, currentPosition.col) : null;
                 
-                if (board.getPiece(normalBlackPawnMove) == undefined) {
+                if (board.getPiece(normalBlackPawnMove) == undefined && normalBlackPawnMove.row != lastLinePawnBlack) {
                     availableMoves.push(normalBlackPawnMove);
                 }
                 if (doubleInitialMoveBlack != null && board.getPiece(doubleInitialMoveBlack) == undefined && board.getPiece(normalBlackPawnMove) == undefined) {
