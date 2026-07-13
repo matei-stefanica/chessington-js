@@ -17,8 +17,19 @@ export default class King extends Piece {
         const currentPosition : Square = board.findPiece(this);
 
         for (const [verticalStep, horizontalStep] of this.kingMoves) {
-            if (this.checkBounds(currentPosition.row + verticalStep, currentPosition.col + horizontalStep)) {
-                availableMoves.push(Square.at(currentPosition.row + verticalStep, currentPosition.col + horizontalStep))
+            const pieceRow : number = currentPosition.row + verticalStep;
+            const pieceCol : number = currentPosition.col + horizontalStep;
+            if (this.checkBounds(pieceRow, pieceCol)) {
+                const enemyPiece : Piece | undefined = board.getPiece(Square.at(pieceRow, pieceCol));
+                if (enemyPiece == undefined) {
+                    availableMoves.push(Square.at(pieceRow, pieceCol));
+                }
+                else {
+                    if (enemyPiece != undefined && this.canTakePiece(enemyPiece)) {
+                        availableMoves.push(Square.at(pieceRow, pieceCol));
+                    }
+                    return availableMoves;
+                }
             }
         }
 
