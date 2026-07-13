@@ -5,12 +5,15 @@ import Square from '../square';
 export default class Piece {
     public player: Player;
 
+    protected lowerBoardBound = 0;
+    protected upperBoardBound = 8;
+
     public constructor(player: Player) {
         this.player = player;
     }
 
-    protected checkBounds(lin : number, col : number) : boolean {
-        if (lin <= 7 && lin >= 0 && col <= 7 && lin >= 0) {
+    protected checkBounds(row : number, col : number) : boolean {
+        if (row < this.upperBoardBound && row >= this.lowerBoardBound && col < this.upperBoardBound && col >= this.lowerBoardBound) {
             return true;
         }
         return false;
