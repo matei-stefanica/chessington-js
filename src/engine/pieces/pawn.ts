@@ -9,10 +9,10 @@ export default class Pawn extends Piece {
     }
 
     private updatePawnMoves(board: Board, availableMoves : Square[], normalMove : Square, doubleMove: Square | null) {
-        if (board.getPiece(normalMove) == undefined) {
+        if (this.checkBounds(normalMove.row, normalMove.col) && board.getPiece(normalMove) == undefined) {
             availableMoves.push(normalMove);
         }
-        if (doubleMove != null && board.getPiece(doubleMove) == undefined && board.getPiece(normalMove) == undefined) {
+        if (doubleMove != null && this.checkBounds(doubleMove.row, doubleMove.col) && doubleMove != null && board.getPiece(doubleMove) == undefined && board.getPiece(normalMove) == undefined) {
             availableMoves.push(doubleMove);
         }
     }   
