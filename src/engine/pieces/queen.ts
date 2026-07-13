@@ -13,16 +13,21 @@ export default class Queen extends Piece {
     ]
     private addAvailableMoves(board: Board, availableMoves: Square[], currentPosition: Square, stepVertical: number, stepHorizontal: number) : Square[] {
         for (let i = currentPosition.row + stepVertical, j = currentPosition.col + stepHorizontal; this.checkBounds(i, j); i += stepVertical, j += stepHorizontal) {
-            if (board.getPiece(Square.at(i, j)) == undefined) {
-                    availableMoves.push(Square.at(i, j));
+            const enemyPiece : Piece | undefined = board.getPiece(Square.at(i, j));
+            if (enemyPiece == undefined) {
+                availableMoves.push(Square.at(i, j));
             }
             else {
+                if (this.canTakePiece(enemyPiece)) {
+                    availableMoves.push(Square.at(i, j));
+                }
                 return availableMoves;
             }
         }
         return availableMoves;
         
     }
+
     
     public getAvailableMoves(board: Board) {
         const availableMoves : Square[] = [];
