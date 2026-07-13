@@ -13,7 +13,7 @@ export default class Piece {
     }
 
     protected checkBounds(row : number, col : number) : boolean {
-        if (row < this.upperBoardBound && row >= this.lowerBoardBound && col < this.upperBoardBound && row >= this.lowerBoardBound) {
+        if (row < this.upperBoardBound && row >= this.lowerBoardBound && col < this.upperBoardBound && col >= this.lowerBoardBound) {
             return true;
         }
         return false;

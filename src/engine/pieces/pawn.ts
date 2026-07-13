@@ -8,33 +8,34 @@ export default class Pawn extends Piece {
         super(player);
     }
 
-    private updatePawnMoves(board: Board, availableMoves : Square[], normalMove : Square, doubleMove: Square | null) {
+    private baseWhitePawnLine : number = 1;
+    private baseBlackPawnLine : number = 6;
+
+    private updatePawnMoves(board: Board, currentPosition: Square, availableMoves : Square[], moveVector : number, baseLine : number) : Square[] {
+        const normalMove : Square = Square.at(currentPosition.row + moveVector, currentPosition.col);
+        const doubleMove : Square | null = currentPosition.row == baseLine ? Square.at(currentPosition.row + 2 * moveVector, currentPosition.col) : null;
+        const canDoubleMove : boolean = doubleMove == null ? false : true;
+
         if (board.getPiece(normalMove) == undefined) {
             availableMoves.push(normalMove);
         }
-        if (doubleMove != null && board.getPiece(doubleMove) == undefined && board.getPiece(normalMove) == undefined) {
+        if (canDoubleMove && doubleMove && board.getPiece(doubleMove) == undefined && board.getPiece(normalMove) == undefined) {
             availableMoves.push(doubleMove);
         }
+        return availableMoves;
     }   
 
     public getAvailableMoves(board: Board) {
-        const baseWhitePawnLine : number = 1;
-        const baseBlackPawnLine : number = 6;
+        
         const availableMoves: Square[] = [];
         const currentPosition: Square = board.findPiece(this);
-
-        const normalWhitePawnMove : Square = Square.at(currentPosition.row + 1, currentPosition.col)
-        const doubleInitialMoveWhite : Square | null = currentPosition.row == baseWhitePawnLine ? Square.at(currentPosition.row + 2, currentPosition.col) : null;
-        
-        const normalBlackPawnMove : Square = Square.at(currentPosition.row - 1, currentPosition.col);
-        const doubleInitialMoveBlack : Square | null = currentPosition.row == baseBlackPawnLine ? Square.at(currentPosition.row - 2, currentPosition.col) : null;
         
         switch (this.player) {
             case Player.WHITE:
-                this.updatePawnMoves(board, availableMoves, normalWhitePawnMove, doubleInitialMoveWhite);
+                availableMoves.concat(this.updatePawnMoves(board, currentPosition, availableMoves, 1, this.baseWhitePawnLine));
                 break;
             case Player.BLACK:
-                this.updatePawnMoves(board, availableMoves, normalBlackPawnMove, doubleInitialMoveBlack);
+                availableMoves.concat(this.updatePawnMoves(board, currentPosition, availableMoves, -1, this.baseBlackPawnLine));
                 break
             default:
                 // TODO: add error later
