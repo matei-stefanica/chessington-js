@@ -1,6 +1,7 @@
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
+import King from './king';
 
 export default class Piece {
     public player: Player;
@@ -14,6 +15,13 @@ export default class Piece {
 
     protected checkBounds(row : number, col : number) : boolean {
         if (row < this.upperBoardBound && row >= this.lowerBoardBound && col < this.upperBoardBound && row >= this.lowerBoardBound) {
+            return true;
+        }
+        return false;
+    }
+
+    protected canTakePiece(opposingPiece : Piece) : boolean {
+        if (opposingPiece.player != this.player && !(opposingPiece.constructor.name == "King")) {
             return true;
         }
         return false;
