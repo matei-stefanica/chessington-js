@@ -16,12 +16,32 @@ export default class Pawn extends Piece {
         const doubleMove : Square | null = currentPosition.row == baseLine ? Square.at(currentPosition.row + 2 * moveVector, currentPosition.col) : null;
         const canDoubleMove : boolean = doubleMove == null ? false : true;
 
+        const leftAttack : Square = Square.at(currentPosition.row + moveVector, currentPosition.col - 1)
+        const rightAttact : Square = Square.at(currentPosition.row + moveVector, currentPosition.col + 1)
+
+
         if (this.checkBounds(normalMove.row, normalMove.col) && board.getPiece(normalMove) == undefined) {
             availableMoves.push(normalMove);
         }
         if (canDoubleMove && doubleMove != null && this.checkBounds(doubleMove.row, doubleMove.col) && board.getPiece(doubleMove) == undefined && board.getPiece(normalMove) == undefined) {
             availableMoves.push(doubleMove);
         }
+        
+        if (this.checkBounds(leftAttack.row, leftAttack.col)) {
+            const leftAttackedPiece : Piece | undefined = board.getPiece(leftAttack)
+            if (leftAttackedPiece != undefined && this.canTakePiece(leftAttackedPiece)) {
+                availableMoves.push(leftAttack);
+            }
+        }
+
+            
+        if (this.checkBounds(rightAttact.row, rightAttact.col)) {
+            const rightAttackedPiece : Piece | undefined = board.getPiece(rightAttact)
+            if (rightAttackedPiece != undefined && this.canTakePiece(rightAttackedPiece)) {
+                availableMoves.push(rightAttact);
+            }
+        }
+
         return availableMoves;
     }   
 
