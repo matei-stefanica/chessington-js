@@ -26,7 +26,11 @@ export default class Pawn extends Piece {
     }   
 
     public getAvailableMoves(board: Board) {
-        
+        const baseWhitePawnLine : number = 1;
+        const baseBlackPawnLine : number = 6;
+        const lastLinePawnWhite : number = 7;
+        const lastLinePawnBlack : number = 0;
+
         const availableMoves: Square[] = [];
         const currentPosition: Square = board.findPiece(this);
         
